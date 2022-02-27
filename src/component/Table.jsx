@@ -24,6 +24,9 @@ const Table = () => {
 
   return (
     <section>
+      <div>
+        {filterByName.name}
+      </div>
       <form action="input">
         <label htmlFor="input">
           <input
