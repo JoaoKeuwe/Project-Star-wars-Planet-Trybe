@@ -6,16 +6,20 @@ import Api from '../services/Api';
 
 const StarProvider = ({ children }) => {
   const [planets, setPlanets] = useState();
+  const [backupPlanets, setBackupPlanets] = useState();
 
   useEffect(() => {
     const func = async () => {
       const data = await Api();
       setPlanets(data);
+      setBackupPlanets(data);
     };
     func();
   }, []);
   const value = {
     data: planets,
+    setBackupPlanets,
+    backupPlanets,
 
   };
   return (
