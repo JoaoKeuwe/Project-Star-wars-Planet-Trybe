@@ -4,6 +4,12 @@ import React, { useContext, useState, useEffect } from 'react';
 import StarContext from '../StarContext/StarContext';
 
 const defaultValues = { coluna: 'population', comparacao: 'maior que', valor: 0 };
+const options = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water'];
 const Table = () => {
   const [filterByName, setFilterByName] = useState({ name: '' });
 
@@ -19,6 +25,21 @@ const Table = () => {
     return filterNames;
   };
 
+  const filterOptions = () => {
+    if (filterByNumericValues.length > 0) {
+      /*    const test = filterByNumericValues.map((filterOption) => options.filter((filterRules) => filterOption !== filterRules.column)); */
+      const newArray = filterByNumericValues
+        .map((rules) => options
+          .filter((column) => rules.column !== column));
+
+      return newArray[0]
+        .map((optionArray) => <option key={ optionArray }>{optionArray}</option>);
+    }
+    if (filterByNumericValues.length === 0) {
+      return options.map((option) => <option key={ option }>{option}</option>);
+    }
+  };
+
   const handleInput = (event) => {
     const { value } = event.target;
 
@@ -31,8 +52,6 @@ const Table = () => {
     const dataPlanet = data.filter((planet) => nameFilter.includes(planet.name));
 
     setBackupPlanets(dataPlanet);
-
-    console.log(dataPlanet);
   };
 
   const filterButton = () => {
@@ -40,7 +59,6 @@ const Table = () => {
       ...filterByNumericValues,
       rulesObj,
     ]);
-    console.log(filterByNumericValues);
   };
 
   const handleFilterArray = (column, comparison, value, planet) => {
@@ -69,6 +87,7 @@ const Table = () => {
     if (filterByNumericValues.length > 0) {
       filterByNumericValues.forEach((rules) => {
         const { column, comparison, value } = rules;
+
         if (column && comparison && value) {
           const arrayFilter = getArray(column, comparison, value);
           setBackupPlanets(arrayFilter);
@@ -97,12 +116,8 @@ const Table = () => {
           />
         </label>
         <select name="column" data-testid="column-filter" onChange={ takeInputText }>
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
-
+          {/* {options.map((option) => <option key={ option }>{option}</option>)} */}
+          {filterOptions()}
         </select>
 
         <select

@@ -342,7 +342,7 @@ describe('4 - Implemente múltiplos filtros numéricos', () => {
   });
 });
 
-describe('5 - Não utilize filtros repetidos', () => {
+  describe.only('5 - Não utilize filtros repetidos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
